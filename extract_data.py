@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import csv
 import os
 from datetime import datetime
@@ -13,30 +15,29 @@ options.add_argument('--disable-dev-shm-usage')
 
 driver = webdriver.Chrome(options=options)
 
-# Открываем страницу с формой авторизации
-driver.get("https://app.powerbi.com/")
-
-# Вводим логин
-username_field = driver.find_element(By.NAME, "email")  # используй селектор, соответствующий твоему сайту
-username_field.send_keys("ljubljana@kiber1.com")
-
-# Вводим пароль
-password_field = driver.find_element(By.NAME, "password")  # используй селектор, соответствующий твоему сайту
-password_field.send_keys("gVpE!aSU-SY9c_G")
-
-# Отправляем форму
-password_field.send_keys(Keys.RETURN)
-
-# Ждём загрузки страницы после авторизации
-driver.implicitly_wait(10)
-
-# Открываем страницу с отчётом после авторизации
-driver.get("https://app.powerbi.com/groups/me/reports/c1a3ebc2-ba77-461c-9b00-6a8d8bbc443e/259964b351242eb072d2?experience=power-bi")
-
-# Ждём загрузки страницы
-driver.implicitly_wait(10)
-
 try:
+    # Открываем страницу с формой авторизации
+    driver.get("https://твой-адрес-с-формой-авторизации")
+
+    # Ждём появления поля ввода электронной почты
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "email")))
+
+    # Вводим логин
+    email_field = driver.find_element(By.ID, "email")
+    email_field.send_keys("твой_логин")
+
+    # Отправляем форму
+    email_field.send_keys(Keys.RETURN)
+
+    # Ждём загрузки следующей страницы
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//td[text()='28 августа 2024 г.']")))
+
+    # Открываем страницу с отчётом после авторизации
+    driver.get("https://app.powerbi.com/groups/me/reports/c1a3ebc2-ba77-461c-9b00-6a8d8bbc443e/259964b351242eb072d2?experience=power-bi")
+
+    # Ждём загрузки страницы
+    driver.implicitly_wait(10)
+
     # Ищем нужную строку по XPath
     row = driver.find_element(By.XPATH, "//td[text()='28 августа 2024 г.']/ancestor::tr")
 
