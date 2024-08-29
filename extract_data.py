@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import csv
 import os
 from datetime import datetime
@@ -12,7 +13,24 @@ options.add_argument('--disable-dev-shm-usage')
 
 driver = webdriver.Chrome(options=options)
 
-# Открываем страницу с отчётом
+# Открываем страницу с формой авторизации
+driver.get("https://app.powerbi.com/")
+
+# Вводим логин
+username_field = driver.find_element(By.NAME, "username")  # используй селектор, соответствующий твоему сайту
+username_field.send_keys("ljubljana@kiber1.com")
+
+# Вводим пароль
+password_field = driver.find_element(By.NAME, "password")  # используй селектор, соответствующий твоему сайту
+password_field.send_keys("gVpE!aSU-SY9c_G")
+
+# Отправляем форму
+password_field.send_keys(Keys.RETURN)
+
+# Ждём загрузки страницы после авторизации
+driver.implicitly_wait(10)
+
+# Открываем страницу с отчётом после авторизации
 driver.get("https://app.powerbi.com/groups/me/reports/c1a3ebc2-ba77-461c-9b00-6a8d8bbc443e/259964b351242eb072d2?experience=power-bi")
 
 # Ждём загрузки страницы
