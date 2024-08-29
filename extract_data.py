@@ -17,7 +17,7 @@ driver = webdriver.Chrome(options=options)
 driver.get("https://app.powerbi.com/")
 
 # Вводим логин
-username_field = driver.find_element(By.NAME, "username")  # используй селектор, соответствующий твоему сайту
+username_field = driver.find_element(By.NAME, "email")  # используй селектор, соответствующий твоему сайту
 username_field.send_keys("ljubljana@kiber1.com")
 
 # Вводим пароль
