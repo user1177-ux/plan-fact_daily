@@ -3,6 +3,7 @@ name: Daily Data Extraction
 on:
   schedule:
     - cron: "0 9 * * *" # Запуск каждый день в 9:00 утра UTC
+  workflow_dispatch: # Возможность запуска вручную
 
 jobs:
   extract_data:
