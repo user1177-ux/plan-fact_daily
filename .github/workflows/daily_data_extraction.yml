@@ -23,10 +23,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install selenium
 
+    - name: Install Google Chrome
+      run: |
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+
     - name: Download ChromeDriver
       run: sudo apt-get install -y chromium-chromedriver
 
     - name: Run data extraction script
+      env:
+        PATH: /usr/bin/google-chrome:$PATH
       run: python extract_data.py
 
     - name: Commit and push results
