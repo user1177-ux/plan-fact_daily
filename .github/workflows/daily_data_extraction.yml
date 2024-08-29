@@ -24,9 +24,7 @@ jobs:
         pip install selenium
 
     - name: Download ChromeDriver
-      run: |
-        sudo apt-get install -y chromium-chromedriver
-        sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+      run: sudo apt-get install -y chromium-chromedriver
 
     - name: Run data extraction script
       run: python extract_data.py
